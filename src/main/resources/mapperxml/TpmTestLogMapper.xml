@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ssm.mapper.TpmTestLogMapper">
+    <resultMap type="cn.ssm.model.TpmTestLog" id="mTpmTestLog" autoMapping="true">
+    </resultMap>
+
+    <!--<sql id="mTpmTestLogSql">
+        LOG_UUID AS logUuid,
+        TESTMAIN_UUID AS testmainUuid,
+        OPERATION AS operation,
+        SYSCREATEDATE AS syscreatedate
+    </sql>-->
+
+    <insert id="insert" parameterType="TpmTestLog" useGeneratedKeys="true" keyProperty="logUuid">
+        INSERT INTO TPM_TEST_LOG (LOG_UUID,
+                                  TESTMAIN_UUID,
+                                  OPERATION,
+                                  SYSCREATEDATE)
+        VALUES (#{logUuid},
+                #{testmainUuid},
+                #{operation},
+                #{syscreatedate})
+    </insert>
+</mapper>
