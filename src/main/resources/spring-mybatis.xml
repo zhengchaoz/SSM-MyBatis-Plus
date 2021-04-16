@@ -73,6 +73,22 @@
         <property name="typeAliasesPackage" value="cn.ssm.model"/>
         <!-- 注入全局配置 -->
         <property name="globalConfig" ref="globalConfiguration"/>
+        <!-- 配置插件 -->
+        <property name="plugins">
+            <list>
+                <!-- 分页插件 -->
+                <bean class="com.baomidou.mybatisplus.plugins.PaginationInterceptor"/>
+                <!-- 输出每条SQL语句及其执行时间，生产环境不建议使用该插件 -->
+                <bean class="com.baomidou.mybatisplus.plugins.PerformanceInterceptor">
+                    <property name="format" value="true"/><!-- 格式化SQL语句 -->
+                    <property name="maxTime" value="1000"/><!-- sql执行时间超过value值就会停止执行，单位是毫秒 -->
+                </bean>
+                <!-- 如果是对全表的删除或更新操作，就会终止该操作 -->
+                <bean class="com.baomidou.mybatisplus.plugins.SqlExplainInterceptor">
+                    <property name="stopProceed" value="true"/>
+                </bean>
+            </list>
+        </property>
     </bean>
     <!-- 加载 mapper.xml对应的接口 配置文件 -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">

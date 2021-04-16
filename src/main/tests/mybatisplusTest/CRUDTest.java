@@ -2,6 +2,9 @@ package mybatisplusTest;
 
 import cn.ssm.mapper.EmployeeMapper;
 import cn.ssm.model.Employee;
+import com.baomidou.mybatisplus.enums.SqlLike;
+import com.baomidou.mybatisplus.mapper.Condition;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -75,13 +78,13 @@ public class CRUDTest {
         list.forEach(System.out::println);
     }
 
-    //    @Ignore
+    @Ignore
     @Test
     public void testQueryPage() {
         // 这个分页其实并不是物理分页，而是内存分页
         // 也就是说，查询的时候并没有limit语句
         // 等配置了分页插件后才可以实现真正的分页
-        List<Employee> employees = employeeMapper.selectPage(new Page<>(1, 2), null);
+        List<Employee> employees = employeeMapper.selectPage(new Page<>(2, 2), null);
         System.out.println(employees);
     }
 
@@ -100,5 +103,79 @@ public class CRUDTest {
         idList.add(1);
         idList.add(2);
         employeeMapper.deleteBatchIds(idList);
+    }
+
+    @Ignore
+    @Test
+    public void testEntityWrapper() {
+//        List<Employee> employees = employeeMapper.selectPage(new Page<Employee>(0, 3),
+//                new EntityWrapper<Employee>()
+//                        .between("age", 18, 50)
+//                        .eq("gender", 0)
+//                        .like("last_name", "李", SqlLike.RIGHT)
+//        );
+//        employees.forEach(System.out::println);
+
+//        List<Employee> employees = employeeMapper.selectList(new EntityWrapper<Employee>()
+//                .eq("gender", "0")
+//                .like("last_name", "武")
+//                .orNew()// .or()和.orNew() 有点区别
+//                .like("email", "163")
+//        );
+//        employees.forEach(System.out::println);
+
+        List<Employee> employees = employeeMapper.selectList(
+                new EntityWrapper<Employee>()
+                        .eq("gender", 0)
+                        .orderBy("age")// orderBy()是升序，asc；orderByDesc()是降序
+                        .last("desc limit 1,3")// 在sql语句后面拼接last里面的内容(改为降序，同时分页)
+        );
+        employees.forEach(System.out::println);
+
+//        List<Employee> selectPage = employeeMapper.selectPage(
+//                new Page(1, 2),
+//                Condition.create().between("age", 18, 50)
+//                        .eq("gender", "0")
+//        );
+    }
+
+    @Ignore
+    @Test
+    public void testEntityWrapperUpdate() {
+        Employee employee = new Employee();
+        employee.setLastName("苍老师");
+        employee.setEmail("cjk@sina.com");
+        employee.setGender(0);
+        Integer id = employeeMapper.update(employee,
+                new EntityWrapper<Employee>()
+                        .eq("id", "2")
+        );
+        System.out.println(id);
+
+        Integer delete = employeeMapper.delete(
+                new EntityWrapper<Employee>()
+                        .eq("last_name", "tom")
+                        .eq("age", 16)
+        );
+    }
+
+    @Test
+    public void testPagePlugin() {
+        // 配置了分页插件后，还是和以前一样的使用selectPage方法，
+        // 但是现在就是真正的物理分页了，sql语句中有limit了
+        Page<Employee> page = new Page<>(0, 4);
+        List<Employee> employeeList =
+                employeeMapper.selectPage(page, null);
+        System.out.println(employeeList);
+        System.out.println("================= 相关的分页信息 ==================");
+        System.out.println("总条数:" + page.getTotal());
+        System.out.println("当前页码:" + page.getCurrent());
+        System.out.println("总页数:" + page.getPages());
+        System.out.println("每页显示条数:" + page.getSize());
+        System.out.println("是否有上一页:" + page.hasPrevious());
+        System.out.println("是否有下一页:" + page.hasNext());
+        //还可以将查询到的结果set进page对象中
+        page.setRecords(employeeList);
+        employeeList.forEach(System.out::println);
     }
 }
