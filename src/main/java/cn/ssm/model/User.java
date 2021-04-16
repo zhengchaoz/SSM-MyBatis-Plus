@@ -1,29 +1,49 @@
 package cn.ssm.model;
 
+import com.baomidou.mybatisplus.enums.IdType;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.activerecord.Model;
-import lombok.*;
-
+import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotations.Version;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 /**
- * @user 郑超
- * @date 2021/4/16
+ * <p>
+ * 
+ * </p>
+ *
+ * @author zhu
+ * @since 2021-04-16
  */
 @Data
-@NoArgsConstructor// 无参构造函数
-@AllArgsConstructor// 全参构造函数
-@ToString
 @EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("tb_user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User extends Model<User> {
 
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private String name;
     private Integer age;
     private Integer gender;
 
-    //重写这个方法，return当前类的主键
+
     @Override
     protected Serializable pkVal() {
-        return id;
+        return this.id;
     }
+
 }

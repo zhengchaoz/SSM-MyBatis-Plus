@@ -11,7 +11,7 @@
         SYSCREATEDATE AS syscreatedate
     </sql>-->
 
-    <insert id="insert" parameterType="TpmTestLog" useGeneratedKeys="true" keyProperty="logUuid">
+    <insert id="insert" parameterType="cn.ssm.model.TpmTestLog" useGeneratedKeys="true" keyProperty="logUuid">
         INSERT INTO TPM_TEST_LOG (LOG_UUID,
                                   TESTMAIN_UUID,
                                   OPERATION,

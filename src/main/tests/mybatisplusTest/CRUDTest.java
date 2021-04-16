@@ -40,6 +40,9 @@ public class CRUDTest {
     @Autowired
     private EmployeeMapper employeeMapper;
 
+    /**
+     * 新增可以设置字段的默认值，这里就不写了
+     */
     @Ignore
     @Test
     public void testAdd() {
@@ -88,6 +91,9 @@ public class CRUDTest {
         System.out.println(employees);
     }
 
+    /**
+     * 另有逻辑删除，就不写了
+     */
     @Ignore
     @Test
     public void testDelete() {
