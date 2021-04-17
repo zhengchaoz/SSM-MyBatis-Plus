@@ -36,4 +36,9 @@
         <setting name="logImpl" value="STDOUT_LOGGING"/>
         <setting name="callSettersOnNulls" value="true"/>
     </settings>
+    <!-- 需要扫描的接口，表示该包下所有接口都可使用注解 -->
+    <!-- 下面注释反而可以使用注解运行SQL了，放开会出bug -->
+<!--    <mappers>-->
+<!--        <package name="cn.ssm.mapper"/>-->
+<!--    </mappers>-->
 </configuration>
