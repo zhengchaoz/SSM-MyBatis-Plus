@@ -28,7 +28,7 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
     List<Employee> findAll();
 
     @Select("select * from tb_employee where id = #{id}")
-    @ResultMap("emp")
+    @Results(id = "emp")
     Employee findById(Integer id);
 
     @Insert("insert into tb_employee(id, last_name, email, gender, age) " +
